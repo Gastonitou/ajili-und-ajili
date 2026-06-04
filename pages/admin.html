@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="de">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Admin – Ajili & Ajili</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/static/style.css"></head>
+<body>
+<nav class="navbar"><div class="container nav-inner">
+  <a href="/" class="nav-logo">Ajili &amp; Ajili</a>
+  <div class="nav-links"><a href="/">Home</a><a href="/admin">Admin</a></div>
+</div></nav>
+
+<section class="section">
+<div class="container">
+<h1 class="section-title">📊 Admin-Dashboard</h1>
+<div class="admin-grid">
+  <div class="admin-card"><h3>✉️ Kontaktanfragen</h3><div id="contactsList">{{ contacts|safe }}</div></div>
+  <div class="admin-card"><h3>🔍 Scanner-Analysen</h3><div id="analysesList">{{ analyses|safe }}</div></div>
+</div>
+</div>
+</section>
+
+<style>.admin-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px}.admin-card{background:#111130;border:1px solid #1e1e4a;border-radius:12px;padding:20px;min-height:200px}.admin-card h3{margin-bottom:16px}.item{padding:10px 0;border-bottom:1px solid #1a1a3a}.item:last-child{border-bottom:none}.item strong{color:white}.item p{color:#b0b0cc;font-size:0.85rem;margin:4px 0}.item small{color:#6666aa;font-size:0.75rem}</style>
+
+<footer class="site-footer"><div class="container" style="text-align:center;"><p class="footer-copy">© 2026 Ajili & Ajili</p></div></footer>
+</body>
+</html>
