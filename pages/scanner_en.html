@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Cost Scanner – Ajili & Ajili</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/static/style.css"></head>
+<body>
+<nav class="navbar"><div class="container nav-inner">
+  <a href="/" class="nav-logo">Ajili &amp; Ajili</a>
+  <div class="nav-links">
+    <a href="/">Home</a><a href="/en/scanner">Scanner</a><a href="/scanner">🇩🇪</a><a href="/scanner" style="color:#e94560;font-weight:700;">🇩🇪 DE</a>
+  </div>
+  <button class="nav-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')">☰</button>
+</div></nav>
+
+<section class="section">
+<div class="container">
+<div class="text-center" style="margin-bottom:30px;">
+  <h1 class="section-title">💰 AI Cost Scanner</h1>
+  <p style="color:#b0b0cc;max-width:600px;margin:0 auto;">Upload an invoice or contract. Our AI analyzes your recurring costs and finds savings opportunities. Free trial!</p>
+</div>
+
+<div class="scanner-card">
+  <form id="scanForm" enctype="multipart/form-data">
+    <div class="form-group"><label>File (PDF, JPG, PNG)</label><input type="file" name="file" required accept=".pdf,.jpg,.jpeg,.png" class="form-input"></div>
+    <div class="form-row dual">
+      <div class="form-group"><label>Your Name</label><input type="text" name="client_name" class="form-input" placeholder="John Doe"></div>
+      <div class="form-group"><label>Your Email</label><input type="email" name="client_email" class="form-input" placeholder="john@company.com"></div>
+    </div>
+    <button type="submit" class="btn btn-primary" id="scanBtn">🔍 Analyze costs</button>
+  </form>
+  <div id="scanResult" style="display:none;margin-top:30px;"></div>
+</div>
+<div style="text-align:center;margin-top:16px;">
+  <p style="color:#6666aa;font-size:0.85rem;">🔒 Your data is treated confidentially.</p>
+  <p style="margin-top:12px;"><a href="/static/demo_rechnung.pdf" download class="btn btn-secondary" style="font-size:0.85rem;padding:8px 16px;">📥 Download demo invoice (PDF) to test</a></p>
+</div>
+</div>
+</section>
+
+<script>
+document.getElementById('scanForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const btn = document.getElementById('scanBtn');
+  const result = document.getElementById('scanResult');
+  btn.disabled = true; btn.textContent = '⏳ Analyzing...'; result.style.display = 'none';
+  try {
+    const res = await fetch('/api/analyze', { method: 'POST', body: new FormData(e.target) });
+    const data = await res.json();
+    if (data.status === 'ok') {
+      const r = data.result;
+      const savingsMap = {'Hoch':'High','Mittel':'Medium','Niedrig':'Low','Unbekannt':'Unknown'};
+      const savings = savingsMap[r.savings] || r.savings || 'Unknown';
+      const savingsColor = savings==='High'?'#e94560':savings==='Medium'?'#f0a500':'#4fc3f7';
+      result.innerHTML = `<div class="scan-result-card">
+        <h3>📊 Analysis Result</h3>
+        <div class="result-grid">
+          <div class="result-item"><span class="result-label">Detected Categories</span><span class="result-value">${(r.categories||[]).join(', ')||'?'}</span></div>
+          <div class="result-item"><span class="result-label">Savings Potential</span><span class="result-value" style="color:${savingsColor}">${savings}</span></div>
+        </div>
+        ${r.recommendations ? `<h4 style="margin-top:16px;color:#4fc3f7;">✅ Recommendations</h4><ul style="color:#b0b0cc;">${r.recommendations.map(x=>`<li>${x}</li>`).join('')}</ul>` : ''}
+        <p style="margin-top:16px;color:#6666aa;">Want a full analysis with personal consultation? <a href="/kontakt" style="color:#4fc3f7;">Contact us →</a></p>
+      </div>`;
+    } else {
+      result.innerHTML = `<div class="scan-error">❌ ${data.message||'Error'}</div>`;
+    }
+  } catch(err) {
+    result.innerHTML = `<div class="scan-error">❌ ${err.message}</div>`;
+  }
+  result.style.display = 'block';
+  btn.disabled = false; btn.textContent = '🔍 Analyze costs';
+});
+</script>
+
+<footer class="site-footer"><div class="container" style="text-align:center;">
+  <p class="footer-brand">Ajili &amp; Ajili — AI for your Business</p>
+  <p class="footer-meta">Cologne · Berlin · Germany</p>
+</div></footer>
+</body>
+</html>

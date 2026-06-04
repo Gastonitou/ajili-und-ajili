@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Contact – Ajili & Ajili</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/static/style.css"></head>
+<body>
+<nav class="navbar"><div class="container nav-inner">
+  <a href="/en" class="nav-logo">Ajili &amp; Ajili</a>
+  <div class="nav-links"><a href="/en">Home</a><a href="/en/services">Services</a><a href="/en/scanner">Cost Scanner</a><a href="/en/contact">Contact</a><a href="/kontakt" style="color:#e94560;font-weight:700;">🇩🇪 DE</a></div>
+  <button class="nav-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')">☰</button>
+</div></nav>
+
+<section class="section">
+<div class="container">
+<div class="text-center" style="margin-bottom:30px;">
+  <h1 class="section-title">📞 Contact</h1>
+  <p style="color:#b0b0cc;max-width:500px;margin:0 auto;">Free consultation. We'll get back to you within 24 hours.</p>
+</div>
+
+<div class="contact-grid-full">
+  <div class="contact-card-big">
+    <form id="contactForm">
+      <div class="form-row dual">
+        <div class="form-group"><label>Name *</label><input type="text" name="name" required class="form-input" placeholder="Your name"></div>
+        <div class="form-group"><label>Email *</label><input type="email" name="email" required class="form-input" placeholder="your@email.com"></div>
+      </div>
+      <div class="form-row dual">
+        <div class="form-group"><label>Phone</label><input type="tel" name="phone" class="form-input" placeholder="+49 123..."></div>
+        <div class="form-group"><label>Company</label><input type="text" name="company" class="form-input" placeholder="Your company"></div>
+      </div>
+      <div class="form-group"><label>Message *</label><textarea name="message" required class="form-input form-textarea" placeholder="Describe what you need..."></textarea></div>
+      <button type="submit" class="btn btn-primary" id="contactBtn">✉️ Send message</button>
+    </form>
+    <div id="contactResult" style="display:none;margin-top:20px;"></div>
+  </div>
+
+  <div class="contact-info">
+    <div class="contact-person"><div class="avatar small">G</div><div><strong>Ghassen Ajili</strong><p style="color:#b0b0cc;font-size:0.85rem;">Tech & Automation</p><a href="mailto:ghassenlaajili6@gmail.com" style="color:#4fc3f7;font-size:0.85rem;">ghassenlaajili6@gmail.com</a></div></div>
+    <div class="contact-person"><div class="avatar small">G</div><div><strong>Ghada Ajili</strong><p style="color:#b0b0cc;font-size:0.85rem;">Business Analysis & QA</p><a href="mailto:lajili.ghada@gmail.com" style="color:#4fc3f7;font-size:0.85rem;">lajili.ghada@gmail.com</a></div></div>
+    <p style="color:#6666aa;font-size:0.85rem;margin-top:20px;">📍 Cologne & Berlin, Germany</p>
+  </div>
+</div>
+</div>
+</section>
+
+<script>
+document.getElementById('contactForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const btn = document.getElementById('contactBtn');
+  const result = document.getElementById('contactResult');
+  btn.disabled = true; btn.textContent = '⏳ Sending...'; result.style.display = 'none';
+  try {
+    const res = await fetch('/api/kontakt', { method: 'POST', body: new FormData(e.target) });
+    const data = await res.json();
+    result.innerHTML = `<div class="scan-result-card"><p style="text-align:center;">✅ ${data.message}</p></div>`;
+    e.target.reset();
+  } catch(err) {
+    result.innerHTML = `<div class="scan-error">❌ ${err.message}</div>`;
+  }
+  result.style.display = 'block';
+  btn.disabled = false; btn.textContent = '✉️ Send message';
+});
+</script>
+
+<footer class="site-footer"><div class="container" style="text-align:center;">
+  <p class="footer-brand">Ajili &amp; Ajili – AI for your Business</p>
+  <p class="footer-meta">Cologne · Berlin · Germany</p>
+</div></footer>
+</body>
+</html>

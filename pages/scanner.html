@@ -6,7 +6,7 @@
 <body>
 <nav class="navbar"><div class="container nav-inner">
   <a href="/" class="nav-logo">Ajili &amp; Ajili</a>
-  <div class="nav-links"><a href="/">Home</a><a href="/leistungen">Leistungen</a><a href="/scanner">Kosten-Scanner</a><a href="/kontakt">Kontakt</a></div>
+  <div class="nav-links"><a href="/">Home</a><a href="/leistungen">Leistungen</a><a href="/scanner">Kosten-Scanner</a><a href="/kontakt">Kontakt</a><a href="/en/scanner" style="color:#e94560;font-weight:700;">🇬🇧 EN</a></div>
   <button class="nav-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')">☰</button>
 </div></nav>
 
@@ -28,7 +28,10 @@
   </form>
   <div id="scanResult" style="display:none;margin-top:30px;"></div>
 </div>
-<p style="text-align:center;color:#6666aa;font-size:0.85rem;margin-top:16px;">🔒 Daten werden vertraulich behandelt.</p>
+<div style="text-align:center;margin-top:16px;">
+  <p style="color:#6666aa;font-size:0.85rem;">🔒 Daten werden vertraulich behandelt.</p>
+  <p style="margin-top:12px;"><a href="/static/demo_rechnung.pdf" download class="btn btn-secondary" style="font-size:0.85rem;padding:8px 16px;">📥 Demo-Rechnung (PDF) herunterladen zum Testen</a></p>
+</div>
 </div>
 </section>
 
